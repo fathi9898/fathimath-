@@ -1,0 +1,60 @@
+CREATE TABLE dbo.account
+( account_id INT NOT NULL IDENTITY(1,1) CONSTRAINT PK_account PRIMARY KEY CLUSTERED,
+  account_name VARCHAR(100) NOT NULL,
+  account_start_date DATE NOT NULL,
+  account_address VARCHAR(1000) NOT NULL,
+  account_type VARCHAR(10) NOT NULL,
+  account_create_timestamp DATETIME NOT NULL,
+    account_notes VARCHAR(500) NULL,
+  is_active BIT NOT NULL);
+  
+  INSERT INTO dbo.account
+  (account_name, account_start_date, account_address, account_type, account_create_timestamp, account_notes, is_active)
+VALUES
+  ('Ed''s Account',
+   '5/1/2019',
+   'Ed''s Address',
+   'TEST',
+   GETUTCDATE(),
+   'This is a test account to model this data.',
+   0);
+   
+   INSERT INTO dbo.account
+  (account_name, account_start_date, account_address, account_type, account_create_timestamp, is_active)
+  VALUES
+  ('Initech',
+   '2/19/1999',
+   '4120 Freidrich Ln.',
+   'LIVE',
+   GETUTCDATE(),
+   1);
+   
+   ALTER TABLE dbo.account ADD CONSTRAINT DF_account_account_notes DEFAULT ('NONE PROVIDED') FOR account_notes;
+   
+   INSERT INTO dbo.account
+  (account_name, account_start_date, account_address, account_type, account_create_timestamp, is_active)
+SELECT
+  'Dinosaur Corp',
+  '1/1/2003',
+  'The Triassic Time Period',
+  'DEMO',
+  GETUTCDATE(),
+  1;
+  
+  
+  retrieve
+  
+  using System.Data;
+using System.Data.SqlClient;
+
+public DataTable StudentView()
+{
+    SqlConnection sqlCon = new SqlConnection(@"Server= localhost\SQLINSTANCENAME; Database= DBNAME; Integrated Security=True;");
+
+    SqlDataAdapter sqlDa = new SqlDataAdapter("QUERY", sqlCon);
+
+    DataTable dtbl = new DataTable();
+    sqlDa.Fill(dtbl);
+
+    return dtbl;
+}
